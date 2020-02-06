@@ -23,14 +23,14 @@ y1=1:size(bas.basinIDs,2);
 [y,x] = meshgrid(y1,x1);
 
 % area factors
-da = ncload('../Data/Grid/af2_ISMIP6_GrIS_01000m.nc');
-af2 = double(da.af2(1:5:end,1:5:end));
+da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
+af2 = double(da.af2(:,:));
 
 % dim
 dx=5000;dy=5000;
 
 % masks
-obs=ncload('../Data/MAR/obs1_05.nc');
+obs=ncload('../Data/RCM/zmask_05000m.nc');
 zma = obs.zmask;
 zma(isnan(zma)) = 0; 
 
@@ -39,34 +39,34 @@ load ../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat wbas
 
 %% the original forcing file
 if (iscen == 1)
-    d0=load('../Data/MAR/DSMB_MARv3.5_MIROC5_rcp85.mat');
+    d0=load('../Data/RCM/DSMB_MARv3.5_MIROC5_rcp85.mat');
     load lookup_MIROC5_rcp85_b25
     modscen='M35_MIROC5_rcp85';
 end
 if (iscen == 2)
-    d0=load('../DATA/MAR/DSMB_MARv3.5_NorESM1_rcp85.mat');
+    d0=load('../DATA/RCM/DSMB_MARv3.5_NorESM1_rcp85.mat');
     load lookup_NorESM1_rcp85_b25
     modscen='M35_NorESM1_rcp85';
 end
 if (iscen == 3)
-    d0=load('../DATA/MAR/DSMB_MARv3.5_CanESM2_rcp85.mat');
+    d0=load('../DATA/RCM/DSMB_MARv3.5_CanESM2_rcp85.mat');
     load lookup_CanESM2_rcp85_b25
     modscen='M35_CanESM2_rcp85';
 end
 if (iscen == 4)
-    d0=load('../DATA/MAR/DSMB_MARv3.5_MIROC5_rcp45.mat');
+    d0=load('../DATA/RCM/DSMB_MARv3.5_MIROC5_rcp45.mat');
     load lookup_MIROC5_rcp45_b25
     modscen='M35_MIROC5_rcp45';
 end
 %%% new data
 if (iscen == 5)
-    d0=load('../DATA/MAR/DSMB_MARv3.7_MIROC5_rcp85.mat');
+    d0=load('../DATA/RCM/DSMB_MARv3.7_MIROC5_rcp85.mat');
     load lookup_MAR37_MIROC5_rcp85_b25
     modscen='M37_MIROC5_rcp85';
 end
 % MAR39
 if (iscen == 6)
-    d0=load('../Data/MAR/DSMB_MARv3.9_MIROC5_rcp85.mat');
+    d0=load('../Data/RCM/DSMB_MARv3.9_MIROC5_rcp85.mat');
     load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
     modscen='M39_MIROC5_rcp85';
 end
@@ -80,9 +80,7 @@ end
 %% Load a modelled geometry for reconstruction
 if (iism == 0)
 amod = 'obs';
-nc = obs;
-nc2 = obs;
-%nc2.sftgif= double(obs.lithk>1);
+nc = ncload('../Data/RCM/orog_05000m.nc');
 nc2.sftgif= mask0;
 end
 if (iism == 1)

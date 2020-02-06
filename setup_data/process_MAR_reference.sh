@@ -6,15 +6,16 @@
 # MIROC5-histo_1950_2005/
 #	MARv3.9-yearly-MIROC5-histo-1950.nc
 
-datapath=/Volumes/Storage/ISMIP6_Disk/Data/GrIS/MAR/MAR3.9
+#datapath=/Volumes/Storage/ISMIP6_Disk/Data/GrIS/MAR/MAR3.9
+datapath=/Volumes/ISMIP6/Data/GrIS/MAR/MAR3.9
 
 gcm=MIROC5
 
 mkdir -p proc
 cd proc
-# Collect files from hist and rcp 
+# Collect files from hist; subsample to 5 km
 for i in `seq 1960 1989`; do
-	cp ${datapath}/${gcm}-histo_1950_2005/MARv3.9-yearly-${gcm}-histo-${i}.nc ./MAR_${i}.nc
+	ncks -F -d x,1,-1,5 -d y,1,-1,5 ${datapath}/${gcm}-histo_1950_2005/MARv3.9-yearly-${gcm}-histo-${i}.nc ./MAR_${i}.nc
 done
 
 # add time information 
@@ -31,8 +32,8 @@ ncrcat -O MAR_1960.nc MAR_1961.nc MAR_1962.nc MAR_1963.nc MAR_1964.nc MAR_1965.n
 ncra -O  MARv3.9-yearly-${gcm}-1960-1989.nc MARv3.9-yearly-${gcm}-ltm1960-1989.nc
 
 # Copy to destination
-/bin/cp MARv3.9-yearly-${gcm}-ltm1960-1989.nc ../../Data/MAR/
+/bin/cp MARv3.9-yearly-${gcm}-ltm1960-1989.nc ../../Data/RCM/
 
 # Extract topg
-ncks -O -v SRF MARv3.9-yearly-${gcm}-ltm1960-1989.nc ../../Data/MAR/MARv3.9_topg_01000m.nc
-ncrename -v SRF,topg ../../Data/MAR/MARv3.9_topg_01000m.nc
+ncks -O -v SRF MARv3.9-yearly-${gcm}-ltm1960-1989.nc ../../Data/RCM/MARv3.9_topg_05000m.nc
+ncrename -v SRF,topg ../../Data/RCM/MARv3.9_topg_05000m.nc

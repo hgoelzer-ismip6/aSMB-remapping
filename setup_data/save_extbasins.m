@@ -4,7 +4,7 @@ clear
 bas=ncload('../Data/Basins/ISMIP6Masks25_05000m.nc');
 
 % masks
-obs=ncload('../Data/MAR/obs1_05.nc');
+obs=ncload('../Data/RCM/zmask_05000m.nc');
 mask = obs.zmask;
 mask(isnan(mask)) = 0.;
 omask = 1-mask;
@@ -58,5 +58,5 @@ text(bc(1,:),bc(2,:),num2str([1:25]'),'Color',[1,1,1],'Fontsize',12)
 
 save ../Data/Basins/ExtBasinMasks25_05000m bas
 
-save ../Data/Basins/bc_05000 bc
+save ../Data/Basins/bc_05000m bc
 

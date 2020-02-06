@@ -13,7 +13,7 @@ gcm = 'MIROC5';
 scen = 'rcp85';
 
 % Model
-amod = 'OBS';
+amod = 'VUBGISM';
 
 %%%%%%%
 
@@ -21,8 +21,9 @@ amod = 'OBS';
 flg_weigh = 1;
 
 % flag for plotting 
-flg_plot=0;
+flg_plot = 1;
 load cmap_dsmb
+%cmap = colormap(jet);
 
 % scenario specific
 aSMBpath = ['../Data/dSMB/' gcm '-' scen ];
@@ -35,20 +36,21 @@ mkdir(outpath, 'aSMB');
 secpyear = 31556926;
 
 % basin definition
-load(['../Data/Basins/ExtBasinMasks25.mat']);
-x1 = 1:size(bas.basinIDs(1:5:end,1:5:end),1);
-y1 = 1:size(bas.basinIDs(1:5:end,1:5:end),2);
+load(['../Data/Basins/ExtBasinMasks25_05000m.mat']);
+x1 = 1:size(bas.basinIDs,1);
+y1 = 1:size(bas.basinIDs,2);
 nb = length(bas.ids);
 [y,x] = meshgrid(y1,x1);
 
 % area factors
-da = ncload('../Data/Grid/af2_ISMIP6_GrIS_01000m.nc');
-af = double(da.af2(1:5:end,1:5:end));
+da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
+af = double(da.af2(:,:));
+
 % dim
 dx=5000;dy=5000;
 
 % basin weights
-load(['../Data/Basins/ExtBasinScale25_nn7_50.mat'], 'wbas');
+load(['../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat'], 'wbas');
 
 % original forcing
 lookup = ncload(['../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-' gcm '-' scen '.nc']);
@@ -94,7 +96,7 @@ for t=(nt-2):nt % year loop
     %% original aSMB
     d1 = ncload([aSMBpath '/aSMB/' aSMBfile_root  '-' num2str(time(t)) '.nc']);
 
-    aSMB = d1.aSMB(1:5:end,1:5:end);
+    aSMB = d1.aSMB;
     aSMB_re = zeros(size(aSMB));
     bint_o = zeros(1,nb);
     bint_e = zeros(1,nb);
@@ -106,9 +108,9 @@ for t=(nt-2):nt % year loop
         fprintf(['\b\b\b']);
         fprintf([',' sprintf('%02d',b)]);
         %% set current basin and lookup
-        eval(['sur_b=sur.*(bas.basin' num2str(b) '(1:5:end,1:5:end)./bas.basin' num2str(b) '(1:5:end,1:5:end));']);
-        eval(['mask_b =       (bas.basin' num2str(b) '(1:5:end,1:5:end)./bas.basin' num2str(b) '(1:5:end,1:5:end));']);
-        eval(['ima_b=ima_mod.*(bas.basin' num2str(b) '(1:5:end,1:5:end)./bas.basin' num2str(b) '(1:5:end,1:5:end));']);
+        eval(['sur_b=sur.*(bas.basin' num2str(b) './bas.basin' num2str(b) ');']);
+        eval(['mask_b =       (bas.basin' num2str(b) './bas.basin' num2str(b) ');']);
+        eval(['ima_b=ima_mod.*(bas.basin' num2str(b) './bas.basin' num2str(b) ');']);
 
         %% set neighbor basin and lookup
         look0 = dummy0;
@@ -153,7 +155,7 @@ for t=(nt-2):nt % year loop
             %% combine according to weights
             aSMB_b = aSMB_b0.*wbas.wg;
         else
-            aSMB_b = aSMB_b0.*wbas.wgc0(1:5:end,1:5:end) + aSMB_b1.*wbas.wgc1(1:5:end,1:5:end) + aSMB_b2.*wbas.wgc2(1:5:end,1:5:end) + aSMB_b3.*wbas.wgc3(1:5:end,1:5:end) + aSMB_b4.*wbas.wgc4(1:5:end,1:5:end) + aSMB_b5.*wbas.wgc5(1:5:end,1:5:end) + aSMB_b6.*wbas.wgc6(1:5:end,1:5:end);
+            aSMB_b = aSMB_b0.*wbas.wgc0 + aSMB_b1.*wbas.wgc1 + aSMB_b2.*wbas.wgc2 + aSMB_b3.*wbas.wgc3 + aSMB_b4.*wbas.wgc4 + aSMB_b5.*wbas.wgc5 + aSMB_b6.*wbas.wgc6;
         end
 %    shade(aSMB_b)
 

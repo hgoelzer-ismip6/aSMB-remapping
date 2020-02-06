@@ -8,6 +8,8 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 `matlab`
 
+`reconstruct_aSMB.m`
+
 `trans_reconstruct_aSMB.m`
 
 `trans_reconstruct_dSMBdz.m`

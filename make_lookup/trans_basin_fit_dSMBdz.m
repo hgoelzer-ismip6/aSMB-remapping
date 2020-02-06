@@ -19,20 +19,21 @@ flg_nanfill = 1;
 colors=get(0,'DefaultAxesColorOrder');
 
 % basin definition
-load ../Data/Basins/ExtBasinMasks25.mat
+load ../Data/Basins/ExtBasinMasks25_05000m.mat
 nb=length(bas.ids);
 
 % area factors
-da = ncload('../Data/Grid/af2_ISMIP6_GrIS_01000m.nc');
-af = double(da.af2(1:5:end,1:5:end));
+da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
+af = double(da.af2(:,:));
+
 % res
 dx=5000;dy=5000;
 
 inpath = ['../Data/dSMB/' gcm '-' scen ];
 
 % MAR surface 
-d0 = ncload(['../Data/MAR/MARv3.9_topg_01000m.nc']);
-sur = d0.topg(1:5:end,1:5:end);
+d0 = ncload(['../Data/RCM/MARv3.9_topg_05000m.nc']);
+sur = d0.topg(:,:);
 
 % scenario specific 
 infile_root_r = [ 'dSMBdz_MARv3.9-yearly-' gcm '-' scen ];
@@ -60,8 +61,8 @@ oldlook = zeros(2,length(ss)+1);
 msg = (['running year, basin: 00,00']);
 fprintf(msg);
 %for t = 1 % year loop
-%for t = nt % year loop
 %for t = 1:5 % year loop
+%for t = nt % year loop
 for t = 1:nt % year loop
 
 %    t
@@ -69,15 +70,15 @@ for t = 1:nt % year loop
     fprintf([sprintf('%02d',t), ',00']);
     d1 = ncload([inpath '/dSMBdz/' infile_root_r  '-' num2str(time(t)) '.nc']);
     % based on RUNOFF gradient for remapping, note negative sign 
-    dSMBdz = -d1.dSMBdz(1:5:end,1:5:end);
+    dSMBdz = -d1.dSMBdz(:,:);
     
 %    figure
     for b = 1:nb
         
         fprintf(['\b\b\b']);
         fprintf([',' sprintf('%02d',b)]);
-        eval(['dSMBdz_b=dSMBdz.*(bas.basin' num2str(b) '(1:5:end,1:5:end)./bas.basin' num2str(b) '(1:5:end,1:5:end));']);
-        eval(['sur_b=sur.*(bas.basin' num2str(b) '(1:5:end,1:5:end)./bas.basin' num2str(b) '(1:5:end,1:5:end));']);
+        eval(['dSMBdz_b=dSMBdz.*(bas.basin' num2str(b) './bas.basin' num2str(b) ');']);
+        eval(['sur_b=sur.*(bas.basin' num2str(b) './bas.basin' num2str(b) ');']);
         
 %        subplot(5,4,b)
 %        hold on; box on;

@@ -6,7 +6,7 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 # Workflow
 ### Create time slice lookup table 
 `basin_fit_aSMB.m`
-
+--> aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
 
 ### Create time dependent lookup table for a given RCM simulation
 

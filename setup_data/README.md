@@ -8,6 +8,8 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 ```cp <ExtArchive>/af2_ISMIP6_GrIS_05000m.nc ../Data/Grid/```
 
+```cp <ExtArchive>/zmask_05000m.nc ../Data/RCM/```
+
 ```cp <ExtArchive>/orog_05000m.nc ../Models/OBS/```
 
 ```cp <ExtArchive>/sftgif_05000m.nc ../Models/OBS/```
@@ -33,17 +35,16 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 `save_extbasin_scale_div.m`
 
 
-### Prepare MAR data (done once per scenario) 
+### Prepare RCM data (done once per scenario) 
 
 `./process_MAR_reference.sh`
 
 `matlab`
 
-% Build forcing time slice
-
-`save_DSMB.m`
-
 % Build a forcing time series 
 
 `save_trans_DSMB.m`
 
+% Build forcing time slice
+
+`save_DSMB.m`
