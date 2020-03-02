@@ -36,8 +36,9 @@ d0 = ncload(['../Data/RCM/MARv3.9_topg_05000m.nc']);
 sur = d0.topg(:,:);
 
 % scenario specific 
-infile_root_r = [ 'dSMBdz_MARv3.9-yearly-' gcm '-' scen ];
 lookup_file = ['trans_lookup_b25_MARv3.9-' gcm '-' scen ];
+
+d1 = ncload(['../Data/RCM/dSMBdz_MARv3.9-yearly-' gcm '-' scen '-2015-2100_05000m.nc']);
 
 % timer
 time = 2015:2100;
@@ -68,9 +69,8 @@ for t = 1:nt % year loop
 %    t
     fprintf(['\b\b\b\b\b']);
     fprintf([sprintf('%02d',t), ',00']);
-    d1 = ncload([inpath '/dSMBdz/' infile_root_r  '-' num2str(time(t)) '.nc']);
-    % based on RUNOFF gradient for remapping, note negative sign 
-    dSMBdz = -d1.dSMBdz(:,:);
+    dSMBdz = d1.dSMBdz(:,:,t);
+
     
 %    figure
     for b = 1:nb

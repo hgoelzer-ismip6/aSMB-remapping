@@ -2,6 +2,8 @@
 
 clear
 
+addpath('../toolbox')
+
 % fill with nan for high elevation?
 flg_nanfill = 1;
 flg_plot = 1;
@@ -16,6 +18,9 @@ af2 = da.af2(:,:);
 % dim
 dx=5000;dy=5000;
 
+% param
+secpyear = 31556926;
+
 % number of basins
 nb = length(bas.ids);
 
@@ -25,7 +30,7 @@ mask=obs.zmask;
 
 % 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
 % 6=MAR39 MIROC8.5
-iscen = 6;
+iscen = 7;
 
 if (iscen ==0) % initmip
 d0=ncload('../Data/initMIP/dsmb_05e3413_ISMIP6_v2.nc');
@@ -62,8 +67,16 @@ sur=d0.SH;
 end
 if (iscen == 6)
 d0=load('../Data/RCM/DSMB_MARv3.9_MIROC5_rcp85.mat');
-lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat';
+lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5_rcp85';
 sur=d0.SH;
+end
+% ISMIP6 data
+if (iscen == 7)
+dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
+lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85';
+dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
+sur=dg.SRF;
+d0.DSMB = dm.aSMB * secpyear / 1000;
 end
 
 %mask=d0.MSK > 0;
@@ -133,12 +146,12 @@ end
     
     if (flg_plot)
         plot(look(1,:),look(2,:),'-k','LineWidth',1)
-        axis([0 3300 -5 1])
+        axis([0 3300 -6 1])
         %    set(gca,'XTick',[])
         %    axis([0 3300 -2 1])
         %    title(['B' num2str(bas.ids(i)) ' ID' num2str(i) ])
         set(gca,'FontSize',20)
-        text(2500,-4,['b', num2str(bas.ids(i)) ''],'FontSize',20,'Interpreter','Tex')    
+        text(2700,-5,['b', num2str(bas.ids(i)) ''],'FontSize',20,'Interpreter','Tex')    
     end
 
 end
@@ -147,7 +160,7 @@ end
 lookup.bint = bint;
 
 %% write lookup table for model/scenario
-save(lookup_file,'lookup')
+save([lookup_file '.mat'],'lookup')
 
 %% Write netcdf
 zd = [0, ss];
@@ -156,10 +169,11 @@ table = zeros(nz,nb);
 for i=1:nb
     eval(['table(:,i) = lookup.b' num2str(i) '(2,:);']);
 end
-%ncwrite_DSMBTable(['Public/DSMB_nb25_' lookup_file '.nc'],zd,table,'DSMB',{'z','b'});
+
+ncwrite_DSMBTable([lookup_file '.nc'],zd,table,'DSMB',{'z','b'});
 
 if (flg_plot)
     xlabel('Surface elevation [m]')
     ylabel('aSMB [m yr^{-1}]','Interpreter', 'tex')
-    %print('-dpng', '-r300', ['../Plotting/Plots/bfit_gradients'])
+    % print('-dpng', '-r300', ['../Plotting/Plots/bfit_gradients'])
 end

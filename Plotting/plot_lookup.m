@@ -10,8 +10,8 @@ flg_plot = 1;
 load ../Data/Basins/ExtBasinMasks25_05000m.mat
 
 % area factors
-da = ncload('../Data/Grid/af2_ISMIP6_GrIS_01000m.nc');
-af2 = double(da.af2(1:5:end,1:5:end));
+da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
+af2 = da.af2;
 
 % dim
 dx=5000;dy=5000;
@@ -20,11 +20,13 @@ dx=5000;dy=5000;
 nb = length(bas.ids);
 
 % masks
-obs=ncload('../Data/MAR/obs1_05.nc');
+obs=ncload('../Data/RCM/orog_05000m.nc');
+msk=ncload('../Data/RCM/zmask_05000m.nc');
+obs.zmask = msk.zmask;
 
 % 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
 % 6=MAR39 MIROC8.5
-iscen = 6;
+iscen = 7;
 
 if (iscen ==0) % initmip
 d0=ncload('../Data/initMIP/dsmb_05e3413_ISMIP6_v2.nc');
@@ -60,6 +62,12 @@ sur=d0.SH;
 end
 if (iscen == 6)
 d0=load('../Data/MAR/DSMB_MARv3.9_MIROC5_rcp85.mat');
+lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat';
+sur=d0.SH;
+end
+
+if (iscen == 7)
+d0=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
 lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat';
 sur=d0.SH;
 end

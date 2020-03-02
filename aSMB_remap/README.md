@@ -17,3 +17,9 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 --> ../Models/<MODEL>/<scenario>/aSMB/aSMB_MARv3.9-yearly-<scenario>-<MODEL>-nnnn.nc
 
 --> ../Models/<MODEL>/<scenario>/dSMBdz/dSMBdz_MARv3.9-yearly-<scenario>-<MODEL>-nnnn.nc
+
+
+### Run schematic scenario
+`meta_trans_dsmb.m`
+
+`trans_dsmb_5km_basin_reconstruct_dsdz.m`

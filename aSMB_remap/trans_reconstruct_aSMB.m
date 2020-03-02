@@ -13,7 +13,8 @@ gcm = 'MIROC5';
 scen = 'rcp85';
 
 % Model
-amod = 'VUBGISM';
+amod = 'OBS';
+%amod = 'VUBGISM';
 
 %%%%%%%
 
@@ -26,8 +27,9 @@ load cmap_dsmb
 %cmap = colormap(jet);
 
 % scenario specific
-aSMBpath = ['../Data/dSMB/' gcm '-' scen ];
-aSMBfile_root = [ 'aSMB_MARv3.9-yearly-' gcm '-' scen ];
+%% original aSMB
+d0=ncload(['../Data/RCM/aSMB_MARv3.9-yearly-' gcm '-' scen '-2015-2100_05000m.nc']);
+
 outpath = ['../Models/' amod '/' gcm '-' scen ];
 outfile_root = [ 'aSMB_MARv3.9-yearly-' gcm '-' scen '-' amod ];
 
@@ -52,7 +54,7 @@ dx=5000;dy=5000;
 % basin weights
 load(['../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat'], 'wbas');
 
-% original forcing
+% lookup table 
 lookup = ncload(['../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-' gcm '-' scen '.nc']);
 modscen='MAR39';
 
@@ -85,18 +87,17 @@ bint_map=zeros(size(lookup.bint));
 msg = (['running year, basin: 00,00']);
 fprintf(msg);
 %for t=1:5 % year loop
-%for t=(nt-5):nt % year loop
+for t=(nt-5):nt % year loop
+%for t=(nt-2):nt % year loop
 %for t=1:nt % year loop
-for t=(nt-2):nt % year loop
 
     timestamp = (time(t)-1900)*secpyear;
 
     fprintf(['\b\b\b\b\b']);
     fprintf([sprintf('%02d',t), ',00']);
-    %% original aSMB
-    d1 = ncload([aSMBpath '/aSMB/' aSMBfile_root  '-' num2str(time(t)) '.nc']);
 
-    aSMB = d1.aSMB;
+    aSMB = d0.aSMB(:,:,t);
+
     aSMB_re = zeros(size(aSMB));
     bint_o = zeros(1,nb);
     bint_e = zeros(1,nb);

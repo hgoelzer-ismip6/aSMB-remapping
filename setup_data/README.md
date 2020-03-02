@@ -37,14 +37,20 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 ### Prepare RCM data (done once per scenario) 
 
-`./process_MAR_reference.sh`
+% Make SMB reference
+
+`./process_MAR_reference_01.sh`
+
+% Calcualte SMB anomalies and gradients
 
 `matlab`
+`save_trans_DSMB_01.m`
 
 % Build a forcing time series 
 
-`save_trans_DSMB.m`
+`./process_MAR_trans.sh`
 
 % Build forcing time slice
 
-`save_DSMB.m`
+`./process_MAR.sh`
+

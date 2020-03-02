@@ -32,7 +32,7 @@ outfile_root_d = [ 'dSMBdz_MARv3.9-yearly-' gcm '-' scen ];
 addpath('../toolbox')
 
 % Load reference SMB
-d0 = ncload(['../Data/RCM/MARv3.9-yearly-' gcm '-ltm1960-1989.nc']);
+d0 = ncload(['../Data/RCM/MARv3.9-yearly-' gcm '-ltm1960-1989_01000m.nc']);
 
 %% Time loop, scenario from 2015-2100, hist from 1950-2005, present 2006-2014
 %for t = 1:5 
@@ -51,17 +51,17 @@ for t = 1:nt
     %% Load forcing file
     d1 = ncload([scenpath '/' file_root num2str(time(t)) '.nc']);
 
-    %% aSMB, subsample to 5 km, convert [mmWE/yr] to [kg m-2 s-1], devide by seconds-per-year
-    aSMB = (d1.SMB(1:5:end,1:5:end)-d0.SMB(:,:))/secpyear;
+    %% aSMB, convert [mmWE/yr] to [kg m-2 s-1], devide by seconds-per-year
+    aSMB = (d1.SMB(:,:)-d0.SMB(:,:))/secpyear;
     %% write out aSMB
     ancfile = [outpath '/aSMB/' outfile_root_a  '-' num2str(time(t)) '.nc'];
-    ncwrite_GrIS_aSMB(ancfile, aSMB, 'aSMB', {'x','y','t'}, 5, timestamp, time_bounds);
+    ncwrite_GrIS_aSMB(ancfile, aSMB, 'aSMB', {'x','y','t'}, 1, timestamp, time_bounds);
 
-    %% dSMB/dz based on runoff, subsample convert [mmWE/yr /m] to [kg m-2 s-1 m-1], devide by seconds-per-year
-    dSMBdz = (-d1.dRU(1:5:end,1:5:end))/secpyear;
+    %% dSMB/dz based on runoff, convert [mmWE/yr /m] to [kg m-2 s-1 m-1], devide by seconds-per-year
+    dSMBdz = (-d1.dRU(:,:))/secpyear;
     %% write out dSMBdz
     ancfile = [outpath '/dSMBdz/' outfile_root_d  '-' num2str(time(t)) '.nc'];
-    ncwrite_GrIS_dSMBdz(ancfile, dSMBdz, 'dSMBdz', {'x','y','t'}, 5, timestamp, time_bounds);
+    ncwrite_GrIS_dSMBdz(ancfile, dSMBdz, 'dSMBdz', {'x','y','t'}, 1, timestamp, time_bounds);
     
 
 end

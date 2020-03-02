@@ -2,17 +2,19 @@
 
 clear
 
+addpath('../toolbox')
+
 % Parameters
 flg_weigh = 1;
 flg_match = 0;
-flg_plot = 0;
+flg_plot = 1;
 
 % 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
 % 6=MAR39 MIROC8.5
-iscen = 6;
+iscen = 7;
 % 0=obs; 1=vub; 2=MPI; 3=JPL; 4=BGC;
-iism = 0;
-%iism = 1;
+%iism = 0;
+iism = 1;
 
 colors=get(0,'DefaultAxesColorOrder');
 
@@ -28,6 +30,9 @@ af2 = double(da.af2(:,:));
 
 % dim
 dx=5000;dy=5000;
+
+% param
+secpyear = 31556926;
 
 % masks
 obs=ncload('../Data/RCM/zmask_05000m.nc');
@@ -67,13 +72,26 @@ end
 % MAR39
 if (iscen == 6)
     d0=load('../Data/RCM/DSMB_MARv3.9_MIROC5_rcp85.mat');
-    load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
+    load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5_rcp85.mat
     modscen='M39_MIROC5_rcp85';
 end
+% ISMIP6
+if (iscen == 7)
+    dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
+    load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
+    modscen='M39_MIROC5-rcp85';
+    dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
+    sur=dg.SRF;
+    d0.DSMB = dm.aSMB * secpyear / 1000;
+    d0.MSK = dg.MSK;
+    d0.LAT = dg.LAT;
+    d0.SH = dg.SRF;
+end
+
 
 % SMB product mask
 mask0=double(d0.MSK==2);
-if (iscen == 5 | iscen == 6 )
+if (iscen == 5 | iscen == 6 | iscen == 7 )
     mask0=double(d0.MSK==5);
 end
 
@@ -85,27 +103,25 @@ nc2.sftgif= mask0;
 end
 if (iism == 1)
 amod = 'vubgism';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/VUB/GISM1/init/orog_GIS_VUB_GISM1_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/VUB/GISM1/init/sftgif_GIS_VUB_GISM1_init.nc');
+nc=ncload('../Models/VUBGISM/orog_05000m.nc');
+nc2=ncload('../Models/VUBGISM/sftgif_05000m.nc');
 end
 if (iism == 2)
 amod = 'mpimpism';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/MPIM/PISM/init/orog_GIS_MPIM_PISM_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25//MPIM/PISM/init/sftgif_GIS_MPIM_PISM_init.nc');
+nc=ncload('../Models/MPIMPISM/orog_05000m.nc');
+nc2=ncload('../Models/MPIMPISM/sftgif_05000m.nc');
 end
-
 if (iism == 3)
 amod = 'jplissm';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/JPL/ISSM/init/orog_GIS_JPL_ISSM_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/JPL/ISSM/init/sftgif_GIS_JPL_ISSM_init.nc');
+nc=ncload('../Models/JPLISSM/orog_05000m.nc');
+nc2=ncload('../Models/JPLISSM/sftgif_05000m.nc');
 % correct mask problem
 nc2.sftgif = double(nc2.sftgif>0);
 end
-
 if (iism == 4)
 amod = 'bgcbi';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/BGC/BISICLES1/init/orog_GIS_BGC_BISICLES1_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/BGC/BISICLES1/init/sftgif_GIS_BGC_BISICLES1_init.nc');
+nc=ncload('../Models/BGCBISICLES/orog_05000m.nc');
+nc2=ncload('../Models/BGCBISICLES/sftgif_05000m.nc');
 end
 
 sur=nc.orog;
@@ -384,7 +400,7 @@ tot1 = 1e-9*sum(bint);
 tot2 = 1e-9*sum(bint_re);
 %text(10,-70,['tot:', num2str(round(tot1))],'FontSize',14)
 %text(10,-75,['tot:', num2str(round(tot2))],'FontSize',14)
-axis([0,26,-80,0])
+axis([0,26,-100,0])
 ylabel('Integrated aSMB [km^3 yr^{-1}]','Interpreter','Tex')
 legend({['original (tot=', num2str(round(tot1)), ')'],['reconstructed (tot=', num2str(round(tot2)) ,')']},'Location','southwest')
 xlabel('Basin Id')

@@ -1,3 +1,6 @@
+# aSMB-remapping
+Matlab/Shell workflow for remapping Greenland SMB anomalies
+
 # Sub-directories for each model (initial state)
 Need to contain the initial ice geometry and mask to start with
 

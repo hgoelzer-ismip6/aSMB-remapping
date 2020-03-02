@@ -35,8 +35,9 @@ d0 = ncload(['../Data/RCM/MARv3.9_topg_05000m.nc']);
 sur = d0.topg(:,:);
 
 % scenario specific 
-infile_root_a = [ 'aSMB_MARv3.9-yearly-' gcm '-' scen ];
 lookup_file = ['trans_lookup_b25_MARv3.9-' gcm '-' scen ];
+
+d1 = ncload(['../Data/RCM/aSMB_MARv3.9-yearly-' gcm '-' scen '-2015-2100_05000m.nc']);
 
 % timer
 time = 2015:2100;
@@ -67,8 +68,8 @@ for t = 1:nt % year loop
 %    t
     fprintf(['\b\b\b\b\b']);
     fprintf([sprintf('%02d',t), ',00']);
-    d1 = ncload([inpath '/aSMB/' infile_root_a  '-' num2str(time(t)) '.nc']);
-    aSMB = d1.aSMB(:,:);
+    aSMB = d1.aSMB(:,:,t);
+
     
 %    figure
     for b = 1:nb
