@@ -4,14 +4,17 @@ clear
 
 addpath('../toolbox')
 
+% Plot settings
+set(0,'DefaultTextInterpreter','none');
+set(groot,'DefaultFIgurePaperPositionMode','auto')
+set(groot,'DefaultAxesFontSize', 16)
+set(groot,'DefaultLineLineWidth', 4)
+
 % Parameters
 flg_weigh = 1;
 flg_match = 0;
 flg_plot = 1;
 
-% 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
-% 6=MAR39 MIROC8.5
-iscen = 7;
 % 0=obs; 1=vub; 2=MPI; 3=JPL; 4=BGC;
 %iism = 0;
 iism = 1;
@@ -34,66 +37,23 @@ dx=5000;dy=5000;
 % param
 secpyear = 31556926;
 
-% masks
-obs=ncload('../Data/RCM/zmask_05000m.nc');
-zma = obs.zmask;
-zma(isnan(zma)) = 0; 
-
 % basin weights
 load ../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat wbas
 
-%% the original forcing file
-if (iscen == 1)
-    d0=load('../Data/RCM/DSMB_MARv3.5_MIROC5_rcp85.mat');
-    load lookup_MIROC5_rcp85_b25
-    modscen='M35_MIROC5_rcp85';
-end
-if (iscen == 2)
-    d0=load('../DATA/RCM/DSMB_MARv3.5_NorESM1_rcp85.mat');
-    load lookup_NorESM1_rcp85_b25
-    modscen='M35_NorESM1_rcp85';
-end
-if (iscen == 3)
-    d0=load('../DATA/RCM/DSMB_MARv3.5_CanESM2_rcp85.mat');
-    load lookup_CanESM2_rcp85_b25
-    modscen='M35_CanESM2_rcp85';
-end
-if (iscen == 4)
-    d0=load('../DATA/RCM/DSMB_MARv3.5_MIROC5_rcp45.mat');
-    load lookup_MIROC5_rcp45_b25
-    modscen='M35_MIROC5_rcp45';
-end
-%%% new data
-if (iscen == 5)
-    d0=load('../DATA/RCM/DSMB_MARv3.7_MIROC5_rcp85.mat');
-    load lookup_MAR37_MIROC5_rcp85_b25
-    modscen='M37_MIROC5_rcp85';
-end
-% MAR39
-if (iscen == 6)
-    d0=load('../Data/RCM/DSMB_MARv3.9_MIROC5_rcp85.mat');
-    load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5_rcp85.mat
-    modscen='M39_MIROC5_rcp85';
-end
-% ISMIP6
-if (iscen == 7)
-    dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
-    load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
-    modscen='M39_MIROC5-rcp85';
-    dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
-    sur=dg.SRF;
-    d0.DSMB = dm.aSMB * secpyear / 1000;
-    d0.MSK = dg.MSK;
-    d0.LAT = dg.LAT;
-    d0.SH = dg.SRF;
-end
-
+%% load the original forcing file
+% ISMIP6 forcing
+dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
+load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
+modscen='M39_MIROC5-rcp85';
+dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
+sur=dg.SRF;
+d0.DSMB = dm.aSMB * secpyear / 1000;
+d0.MSK = dg.MSK;
+d0.LAT = dg.LAT;
+d0.SH = dg.SRF;
 
 % SMB product mask
-mask0=double(d0.MSK==2);
-if (iscen == 5 | iscen == 6 | iscen == 7 )
-    mask0=double(d0.MSK==5);
-end
+mask0=double(d0.MSK==5);
 
 %% Load a modelled geometry for reconstruction
 if (iism == 0)
@@ -150,21 +110,11 @@ for i=1:25
     eval(['mask_b=(bas.basin' num2str(i) './bas.basin' num2str(i) ');']);
     eval(['ima_b=mask.*(bas.basin' num2str(i) './bas.basin' num2str(i) ');']);
 
-
-%    eval(['look0=lookup.b' num2str(wbas.n0(i)) ';']);
-%    %% set neighbor basin and lookup
-%    eval(['look1=lookup.b' num2str(wbas.n1(i)) ';']);
-%    eval(['look2=lookup.b' num2str(wbas.n2(i)) ';']);
-%    eval(['look3=lookup.b' num2str(wbas.n3(i)) ';']);
-%    eval(['look4=lookup.b' num2str(wbas.n4(i)) ';']);
-%    eval(['look5=lookup.b' num2str(wbas.n5(i)) ';']);
-%    eval(['look6=lookup.b' num2str(wbas.n6(i)) ';']);
-    
+    %% set neighbor basin and lookup
     look0 = dummy0;
     if (wbas.n0(i)>0)
         eval(['look0=lookup.b' num2str(wbas.n0(i)) ';']);
     end
-    %% set neighbor basin and lookup
     look1 = dummy0;
     if (wbas.n1(i)>0)
         eval(['look1=lookup.b' num2str(wbas.n1(i)) ';']);

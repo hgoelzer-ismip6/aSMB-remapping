@@ -2,31 +2,30 @@
 
 clear
 
-%modscen='MIROC5_rcp85';
-%modscen='initMIP';
-modscen='M39_MIROC5_rcp85';
+% scenario
+modscen='M39_MIROC5-rcp85';
 
 % area factors
 da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
 af2 = double(da.af2(:,:));
 
 %% dim
-dx=5000;dy=5000;
+dx=5000; dy=5000;
+
+% param
+rhoi = 910;
 
 %% model individual parameters
 load ../Data/initMIP/ch_A5.mat
 
 %% output
-%iadsmb_re=zeros([100,ch.n]);
 iadsmb_re=zeros([86,ch.n]);
 
 for m=1:ch.n
-    %for m=17:19
 
     amod = ch.ids{ch.order(m)};
 
-    rhoi=ch.rhoi{1};
-    v2mmsl=-1e-12/361.8*rhoi;
+    v2mmsl=-1e-12/362.5*rhoi;
     scl=v2mmsl;
 
     %% models

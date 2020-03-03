@@ -14,6 +14,10 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 ```cp <ExtArchive>/sftgif_05000m.nc ../Models/OBS/```
 
+```cp <ExtArchive>/lithk_05000m.nc ../Models/OBS/```
+
+```cp <ExtArchive>/topg_05000m.nc ../Models/OBS/```
+
 ```cp <ExtArchive>/orog_05000m.nc ../Models/VUBGISM/```
 
 ```cp <ExtArchive>/sftgif_05000m.nc ../Models/VUBGISM/```
@@ -24,7 +28,7 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 `matlab`
 
-% Save basins in useful mask format 
+% Save basins in mask format 
 
 `save_extbasins.m`
 
@@ -36,6 +40,7 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 
 ### Prepare RCM data (done once per scenario) 
+### Preliminary files available
 
 % Make SMB reference
 

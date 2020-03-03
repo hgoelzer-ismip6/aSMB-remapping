@@ -3,12 +3,9 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 # Reconstruct DSMB using lookup table
 
-# Workflow
-### Use time dependent lookup table to reconstruct aSMB and dSMBdz at model surface
-
-`matlab`
-
 `reconstruct_aSMB.m`
+
+### Use time dependent lookup table to reconstruct aSMB and dSMBdz at model surface
 
 `trans_reconstruct_aSMB.m`
 
@@ -20,6 +17,12 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 
 ### Run schematic scenario
-`meta_trans_dsmb.m`
 
+`meta_trans_dsmb.m`
 `trans_dsmb_5km_basin_reconstruct_dsdz.m`
+
+
+### Run with initMIP geometries
+
+`trans_dsmb_5km_basin_reconstruct_all.m`
+`get_sl_model_all.m`

@@ -1,11 +1,11 @@
-% plot initMIP results
+% Plot initMIP results
 
 clear
 
-%modscen='MIROC5_rcp85';
-%modscen='initMIP';
-modscen='M39_MIROC5_rcp85';
+% scenario
+modscen='M39_MIROC5-rcp85';
 
+% initMIP results
 load ../Data/initMIP/ch_A5.mat
 load(['../Data/initMIP/A5_iadsmb_trans_' modscen], 'prog');
 
@@ -86,7 +86,7 @@ set(gca,'XtickLabel',igrpmodcol,'XTickLabelRotation', 90)
 set(gca,'FontSize', 16)
 ylabel(ylab);
 axis(ax)
-axis([0 prog.n+1 ax(3) 70])
+axis([0 prog.n+1 -10 100])
 set(gca,'Position',[posfull(1),posfull(2),posfull(3),posfull(4)/(160/70)])
 % save
 print('-r300', '-dpng', ['Plots/A5_bar_trans_diff_' modscen]);

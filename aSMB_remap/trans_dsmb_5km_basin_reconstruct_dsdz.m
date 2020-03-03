@@ -1,6 +1,5 @@
 % Run transient model adjusting elevation as we go
-% simple approximation for dsmb with basin weights
-
+% call with meta_trans_dsmb.m
 %clear
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8,13 +7,7 @@
 flg_weigh = 1;
 flg_match = 0;
 
-% 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
-% 6=MAR39 MIROC8.5
-iscen = 7;
-% 0=obs; 1=vub; 2=MPI; 3=JPL; 4=BGC;
-iism = 0;
-
-% flag for type t0 t2
+% flag for experiment type
 %flg_t=0;
 %flg_t=2;
 %flg_t=3;
@@ -51,54 +44,23 @@ rhoi = 910;
 % basin weights
 load(['../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat'], 'wbas');
 
-% ISMIP6
-if (iscen == 7)
-    d0=ncload(['../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
-    d1=ncload(['../Data/RCM/dSMBdz_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
-    % lookup table 
-    lookup = ncload(['../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-MIROC5-rcp85.nc']);
-    modscen='M39_MIROC5-rcp85';
-end
+% ISMIP6 forcing
+d0=ncload(['../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
+d1=ncload(['../Data/RCM/dSMBdz_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
+% lookup table 
+lookup = ncload(['../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-MIROC5-rcp85.nc']);
+modscen='M39_MIROC5-rcp85';
 
 % dummy lookup for zero
 dummy0 = lookup.aSMB_ltbl(:,1,1);
 
 
-%% Load a modelled geometry for reconstruction
-if (iism == 0)
+% Load a geometry for reconstruction
 amod = 'OBS';
-% Load a modelled geometry for reconstruction
 nc=ncload(['../Models/' amod '/lithk_05000m.nc']);
 nc1=ncload(['../Models/' amod '/topg_05000m.nc']);
 nc2=ncload(['../Models/' amod '/sftgif_05000m.nc']);
 nc.lithk = double(nc.lithk);
-end
-if (iism == 1)
-amod = 'vubgism';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/VUB/GISM1/init/lithk_GIS_VUB_GISM1_init.nc');
-nc1=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/VUB/GISM1/init/topg_GIS_VUB_GISM1_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/VUB/GISM1/init/sftgif_GIS_VUB_GISM1_init.nc');
-end
-if (iism == 2)
-amod = 'mpimpism';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/MPIM/PISM/init/lithk_GIS_MPIM_PISM_init.nc');
-nc1=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25//MPIM/PISM/init/topg_GIS_MPIM_PISM_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25//MPIM/PISM/init/sftgif_GIS_MPIM_PISM_init.nc');
-end
-if (iism == 3)
-amod = 'jplissm';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/JPL/ISSM/init/lithk_GIS_JPL_ISSM_init.nc');
-nc1=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/JPL/ISSM/init/topg_GIS_JPL_ISSM_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/JPL/ISSM/init/sftgif_GIS_JPL_ISSM_init.nc');
-% correct mask problem
-nc2.sftgif = double(nc2.sftgif>0);
-end
-if (iism == 4)
-amod = 'bgcbi';
-nc=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/BGC/BISICLES1/init/lithk_GIS_BGC_BISICLES1_init.nc');
-nc1=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/BGC/BISICLES1/init/topg_GIS_BGC_BISICLES1_init.nc');
-nc2=ncload('/Volumes/ISMIP6/initMIP-Greenland/Archive/Public/cryoftp1.gsfc.nasa.gov/ISMIP6/initMIP/GrIS/FINAL_May25/BGC/BISICLES1/init/sftgif_GIS_BGC_BISICLES1_init.nc');
-end
 
 % Operate on ice thickness
 thi = nc.lithk.*nc2.sftgif;
@@ -124,7 +86,7 @@ tsur_re=zeros(size(d0.aSMB));
 for t=1:nt % year loop
 
     t
-    dsd=d0.aSMB(:,:,t) * secpyear / rhof;
+    dsd=d0.aSMB(:,:,t) * secpyear / 1000 * rhof/rhoi;
     dsd_re=zeros(size(dsd));
 
     %% loop through basins
@@ -234,13 +196,13 @@ for t=1:nt % year loop
 
     if(flg_t==3 | flg_t==4 | flg_t==5 )
         %% dSMB/dz
-        dsmb = d1.dSMBdz(:,:,t) .* (sur-sur0);
-        dsmb_re = d1.dSMBdz(:,:,t) .* (sur_re-sur0);
+        dsmb = d1.dSMBdz(:,:,t) .* (sur-sur0) * rhof/rhoi;
+        dsmb_re = d1.dSMBdz(:,:,t) .* (sur_re-sur0) * rhof/rhoi;
         dsd = dsd + dsmb;
         dsd_re = dsd_re + dsmb_re;
     end
 
-    dsd_re = dsd_re * secpyear / rhof * rhof/rhoi;
+    dsd_re = dsd_re * secpyear / 1000 * rhof/rhoi;
     
     %% update surface elevation
     thi_re = max(thi_re + dsd_re, 0);

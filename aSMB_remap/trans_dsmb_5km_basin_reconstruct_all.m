@@ -1,5 +1,4 @@
-% Run transient model adjusting elevation as we go
-% simple approximation for dsmb with basin weights
+% Run transient model for all initMIP initial states
 
 clear
 tic
@@ -8,15 +7,8 @@ tic
 flg_weigh = 1;
 flg_match = 0;
 
-% 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
-% 6=MAR39 MIROC8.5
-iscen = 7;
-
 % flag for type t0 t2
 flg_t=0;
-%flg_t=2;
-%flg_t=3;
-%flg_t=5;
 
 % flag for plotting 
 flg_plot=0;
@@ -49,20 +41,12 @@ rhoi = 910;
 % basin weights
 load(['../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat'], 'wbas');
 
-% MAR39
-if (iscen == 6)
-    d0=load('../Data/MAR/trans_DSMB_MARv3.9_MIROC5_rcp85.mat');
-    load trans_lookup_MAR39_MIROC5_rcp85_b25
-    modscen='M39_MIROC5_rcp85';
-end
-% ISMIP6
-if (iscen == 7)
-    d0=ncload(['../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
-    d1=ncload(['../Data/RCM/dSMBdz_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
-    % lookup table 
-    lookup = ncload(['../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-MIROC5-rcp85.nc']);
-    modscen='M39_MIROC5-rcp85';
-end
+% forcing
+d0=ncload(['../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
+d1=ncload(['../Data/RCM/dSMBdz_MARv3.9-yearly-MIROC5-rcp85-2015-2100_05000m.nc']);
+% lookup table 
+lookup = ncload(['../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-MIROC5-rcp85.nc']);
+modscen='M39_MIROC5-rcp85';
 
 % dummy lookup for zero
 dummy0 = lookup.aSMB_ltbl(:,1,1);
@@ -78,8 +62,6 @@ ix = find((fi.init{19}.sftgif)<0.);
 fi.init{19}.sftgif(ix) = 0;
 
 for m=1:fi.n
-%for m=2:33
-%for m=19
 
     amod = fi.igrpmod{m}
     
@@ -107,7 +89,7 @@ for m=1:fi.n
     %for t=1 % year loop
     for t=1:nt % year loop
 
-        dsd=d0.aSMB(:,:,t) * secpyear / rhof;
+        dsd=d0.aSMB(:,:,t) * secpyear / 1000 * rhof/rhoi;
         dsd_re=zeros(size(dsd));
 
         %% loop through basins
@@ -217,13 +199,13 @@ for m=1:fi.n
 
         if(flg_t==3 | flg_t==4 | flg_t==5 )
             %% dSMB/dz
-            dsmb = d0.TdSMBdz(:,:,t) .* (sur-sur0);
-            dsmb_re = d0.TdSMBdz(:,:,t) .* (sur_re-sur0);
+            dsmb = d0.TdSMBdz(:,:,t) .* (sur-sur0) * rhof/rhoi;
+            dsmb_re = d0.TdSMBdz(:,:,t) .* (sur_re-sur0) * rhof/rhoi;
             dsd = dsd + dsmb;
             dsd_re = dsd_re + dsmb_re;
         end
         
-        dsd_re = dsd_re * secpyear / rhof * rhof/rhoi;
+        dsd_re = dsd_re * secpyear / 1000 * rhof/rhoi;
 
         %% update surface elevation
         thi_re = max(thi_re + dsd_re, 0);

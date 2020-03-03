@@ -1,18 +1,10 @@
-% Plot the lookup tables
+% Plot final thickness changes
 
 clear
 
-%modscen='initMIP';
-%modscen='M37lin';
-%modscen='MAR37';
+% Settings
 modscen='M39_MIROC5-rcp85';
-
-
 amod = 'OBS';
-%amod = 'vubgism';
-%amod = 'mpimpism';
-%amod = 'jplissm';
-%amod = 'bgcbi';
 
 % models
 t0=load(['../Data/output/transient0_' modscen '_' amod '.mat']);
@@ -33,8 +25,6 @@ dh_0 = t0.tsur_re(:,:,end)-t0.tsur_re(:,:,1);
 dh_0(isnan(dh_0))=0;
 
 % surface change due to DSMB and height feedback
-%dh_1 = t1.tsur_re(:,:,end)-t1.tsur_re(:,:,1);
-%dh_1(isnan(dh_1))=0;
 dh_2 = t2.tsur_re(:,:,end)-t2.tsur_re(:,:,1);
 dh_2(isnan(dh_2))=0;
 

@@ -4,7 +4,7 @@ clear
 
 addpath('../toolbox')
 
-% fill with nan for high elevation?
+% fill nans for high elevation?
 flg_nanfill = 1;
 flg_plot = 1;
 
@@ -24,64 +24,17 @@ secpyear = 31556926;
 % number of basins
 nb = length(bas.ids);
 
-% masks
-obs=ncload('../Data/RCM/zmask_05000m.nc');
-mask=obs.zmask;
-
-% 0=initMIP; 1=MIROC8.5; 2=NorESM8.5; 3=CANSM8.5; 4=MIROC4.5; 5=M37 MIROC8.5;
-% 6=MAR39 MIROC8.5
-iscen = 7;
-
-if (iscen ==0) % initmip
-d0=ncload('../Data/initMIP/dsmb_05e3413_ISMIP6_v2.nc');
-lookup_file='lookup_initMIP_b25';
-obs=ncload('../Data/RCM/orog_05000m.nc');
-sur = obs.orog;
-end
-
-if (iscen == 1)
-d0=load('../Data/RCM/DSMB_MARv3.5_MIROC5_rcp85.mat');
-lookup_file='lookup_MIROC5_rcp85_b25';
-sur=d0.SH;
-end
-if (iscen == 2)
-d0=load('../DATA/RCM/DSMB_MARv3.5_NorESM1_rcp85.mat');
-lookup_file='lookup_NorESM1_rcp85_b25';
-sur=d0.SH;
-end
-if (iscen == 3)
-d0=load('../DATA/RCM/DSMB_MARv3.5_CanESM2_rcp85.mat');
-lookup_file='lookup_CanESM2_rcp85_b25';
-sur=d0.SH;
-end
-if (iscen == 4)
-d0=load('../DATA/RCM/DSMB_MARv3.5_MIROC5_rcp45.mat');
-lookup_file='lookup_MIROC5_rcp45_b25';
-sur=d0.SH;
-end
-% new data
-if (iscen == 5)
-d0=load('../Data/RCM/DSMB_MARv3.7_MIROC5_rcp85.mat');
-lookup_file='lookup_MAR37_MIROC5_rcp85_b25';
-sur=d0.SH;
-end
-if (iscen == 6)
-d0=load('../Data/RCM/DSMB_MARv3.9_MIROC5_rcp85.mat');
-lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5_rcp85';
-sur=d0.SH;
-end
-% ISMIP6 data
-if (iscen == 7)
+% ISMIP6 forcing
 dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
 lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85';
 dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
 sur=dg.SRF;
 d0.DSMB = dm.aSMB * secpyear / 1000;
-end
 
-%mask=d0.MSK > 0;
-dsd=d0.DSMB.*(mask./double(mask));
-%dsd=d0.DSMB.*(mask);
+% masking to ice covered area
+mask= double(dg.MSK == 5);
+
+dsd=d0.DSMB.*(mask./mask);
 bint=zeros(1,25);
 
 if (flg_plot)

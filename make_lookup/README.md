@@ -3,8 +3,8 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 # Make SMB lookup table
 
-# Workflow
 ### Create time slice lookup table 
+
 `basin_fit_aSMB.m`
 --> Data/lookup/aSMB_lookup_b25_MARv3.9-<scenario>.nc
 
