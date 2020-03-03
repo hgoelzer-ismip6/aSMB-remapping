@@ -10,17 +10,18 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 ```cp <ExtArchive>/zmask_05000m.nc ../Data/RCM/```
 
-```cp <ExtArchive>/orog_05000m.nc ../Models/OBS/```
+```cp <ExtArchive>/OBS/orog_05000m.nc ../Models/OBS/```
 
-```cp <ExtArchive>/sftgif_05000m.nc ../Models/OBS/```
+```cp <ExtArchive>/OBS/sftgif_05000m.nc ../Models/OBS/```
 
-```cp <ExtArchive>/lithk_05000m.nc ../Models/OBS/```
+```cp <ExtArchive>/OBS/lithk_05000m.nc ../Models/OBS/```
 
-```cp <ExtArchive>/topg_05000m.nc ../Models/OBS/```
+```cp <ExtArchive>/OBS/topg_05000m.nc ../Models/OBS/```
 
-```cp <ExtArchive>/orog_05000m.nc ../Models/VUBGISM/```
+```cp <ExtArchive>/VUBGISM/orog_05000m.nc ../Models/VUBGISM/```
 
-```cp <ExtArchive>/sftgif_05000m.nc ../Models/VUBGISM/```
+```cp <ExtArchive>/VUBGISM/sftgif_05000m.nc ../Models/VUBGISM/```
+
 
 ### Prepare Basins (done only once)
 
@@ -40,7 +41,11 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 
 ### Prepare RCM data (done once per scenario) 
-### Preliminary files available
+
+The MAR data originally comes as yearly SMB and dRUNdz at 1 km resolution. 
+We calculate anomalies against the 1960-1989 reference period and interpolate to 
+5 km resolution. The result of this operation (the 5 km files) are provided for 
+convenience. In that case the scripts below are not needed.
 
 % Make SMB reference
 
