@@ -15,9 +15,9 @@ flg_weigh = 1;
 flg_match = 0;
 flg_plot = 1;
 
-% 0=obs; 1=vub; 2=MPI; 3=JPL; 4=BGC;
-%iism = 0;
-iism = 1;
+% 0=obs; 1=VUB; 2=MPI; 3=JPL; 4=BGC;
+iism = 0;
+%iism = 1;
 
 colors=get(0,'DefaultAxesColorOrder');
 
@@ -45,7 +45,7 @@ load ../Data/Basins/ExtBasinScale25_nn7_50_05000m.mat wbas
 dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
 load ../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85.mat
 modscen='M39_MIROC5-rcp85';
-dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
+dg = ncload(['../Data/RCM/grid_MARv3.9_05000m.nc']);
 sur=dg.SRF;
 d0.DSMB = dm.aSMB * secpyear / 1000;
 d0.MSK = dg.MSK;
@@ -58,7 +58,7 @@ mask0=double(d0.MSK==5);
 %% Load a modelled geometry for reconstruction
 if (iism == 0)
 amod = 'obs';
-nc = ncload('../Data/RCM/orog_05000m.nc');
+nc = ncload('../Models/OBS/orog_05000m.nc');
 nc2.sftgif= mask0;
 end
 if (iism == 1)

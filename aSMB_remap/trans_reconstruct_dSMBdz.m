@@ -13,7 +13,8 @@ gcm = 'MIROC5';
 scen = 'rcp85';
 
 % Model
-amod = 'OBS';
+%amod = 'OBS';
+amod = 'VUBGISM';
 
 %%%%%%%
 

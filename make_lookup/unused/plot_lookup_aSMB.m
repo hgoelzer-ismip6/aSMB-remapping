@@ -3,7 +3,7 @@
 lookup_file='../Data/lookup/TaSMB_trans_lookup_b25_MARv3.9-MIROC5-rcp85.nc';
 
 % basin definition
-load ../Data/Basins/ExtBasinMasks25.mat
+load ../Data/Basins/ExtBasinMasks25_05000m.mat
 
 figure
 

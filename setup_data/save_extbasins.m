@@ -4,7 +4,7 @@ clear
 bas=ncload('../Data/Basins/ISMIP6Masks25_05000m.nc');
 
 % masks
-obs=ncload('../Data/RCM/zmask_05000m.nc');
+obs=ncload('../Data/Grid/zmask_05000m.nc');
 mask = obs.zmask;
 mask(isnan(mask)) = 0.;
 omask = 1-mask;

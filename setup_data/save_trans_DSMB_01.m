@@ -32,7 +32,7 @@ outfile_root_d = [ 'dSMBdz_MARv3.9-yearly-' gcm '-' scen ];
 addpath('../toolbox')
 
 % Load reference SMB
-d0 = ncload(['../Data/RCM/MARv3.9-yearly-' gcm '-ltm1960-1989_01000m.nc']);
+d0 = ncload(['../Data/RCM/SMB_MARv3.9-yearly-' gcm '-ltm1960-1989_01000m.nc']);
 
 %% Time loop, scenario from 2015-2100, hist from 1950-2005, present 2006-2014
 %for t = 1:5 

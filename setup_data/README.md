@@ -4,24 +4,24 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 # Prepare input data 
 
 ### Copy input files from external Data archive 
-```cp <ExtArchive>/ISMIP6_Extensions_05000m.nc ../Data/Basins/```
 
-```cp <ExtArchive>/af2_ISMIP6_GrIS_05000m.nc ../Data/Grid/```
+`cp <ExtArchive>/ISMIP6_Extensions_05000m.nc ../Data/Basins/`
 
-```cp <ExtArchive>/zmask_05000m.nc ../Data/RCM/```
+`cp <ExtArchive>/af2_ISMIP6_GrIS_05000m.nc ../Data/Grid/`
+`cp <ExtArchive>/days_1900-2300.txt ../Data/Grid/`
+`cp <ExtArchive>/grid_ISMIP6_GrIS_01000m.nc ../Data/Grid/`
+`cp <ExtArchive>/grid_ISMIP6_GrIS_05000m.nc ../Data/Grid/`
+`cp <ExtArchive>/zmask_05000m.nc ../Data/Grid/`
 
-```cp <ExtArchive>/OBS/orog_05000m.nc ../Models/OBS/```
+`cp <ExtArchive>/ ../Data/RCM/`
 
-```cp <ExtArchive>/OBS/sftgif_05000m.nc ../Models/OBS/```
+`cp <ExtArchive>/OBS/orog_05000m.nc ../Models/OBS/`
+`cp <ExtArchive>/OBS/sftgif_05000m.nc ../Models/OBS/`
+`cp <ExtArchive>/OBS/lithk_05000m.nc ../Models/OBS/`
+`cp <ExtArchive>/OBS/topg_05000m.nc ../Models/OBS/`
 
-```cp <ExtArchive>/OBS/lithk_05000m.nc ../Models/OBS/```
-
-```cp <ExtArchive>/OBS/topg_05000m.nc ../Models/OBS/```
-
-```cp <ExtArchive>/VUBGISM/orog_05000m.nc ../Models/VUBGISM/```
-
-```cp <ExtArchive>/VUBGISM/sftgif_05000m.nc ../Models/VUBGISM/```
-
+`cp <ExtArchive>/VUBGISM/orog_05000m.nc ../Models/VUBGISM/`
+`cp <ExtArchive>/VUBGISM/sftgif_05000m.nc ../Models/VUBGISM/`
 
 ### Prepare Basins (done only once)
 
@@ -39,28 +39,32 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 `save_extbasin_scale_div.m`
 
+--> Results in ../Data/Basins
 
 ### Prepare RCM data (done once per scenario) 
 
-The MAR data originally comes as yearly SMB and dRUNdz at 1 km resolution. 
+The MAR data originally comes as yearly SMB and dRUNdz at 1 km resolution. E.g.
+ftp://ftp.climato.be/fettweis/MARv3.9/ISMIP6/GrIS/MIROC5-histo_1950_2005
 We calculate anomalies against the 1960-1989 reference period and interpolate to 
 5 km resolution. The result of this operation (the 5 km files) are provided for 
 convenience. In that case the scripts below are not needed.
 
-% Make SMB reference
+% Make SMB reference (~10 min)
 
 `./process_MAR_reference_01.sh`
 
-% Calcualte SMB anomalies and gradients
+% Calcualte SMB anomalies and gradients (~60 min)
 
 `matlab`
 `save_trans_DSMB_01.m`
 
-% Build a forcing time series 
+% Build a forcing time series (2x ~10 min)
+% Run twice: for avar=aSMB and avar=dSMBdz
 
 `./process_MAR_trans.sh`
 
-% Build forcing time slice
+% Build forcing time slice (~1 min)
 
 `./process_MAR.sh`
 
+--> Results in ../Data/RCM

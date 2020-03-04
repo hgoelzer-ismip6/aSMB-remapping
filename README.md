@@ -3,26 +3,26 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 
 # Workflow
 ### create input data (once and once per scenario) 
-```setup_data/```
+`setup_data/`
 
 ### Get modelled ice geometry and mask (once per initial state)
-```Models/```
+`Models/`
 
 ### Build lookup table (once per scenario)
-```make_lookup/```
+`make_lookup/`
 
 ### Apply SMB scenario using lookup table 
-```aSMB_remap/```
+`aSMB_remap/`
 
 
 
 ### Plotting scripts
-```Plotting/```
+`Plotting/`
 
 
 # Input data
-```Data/```
+`Data/`
 
 # matlab toolbox
-```toolbox/```
+`toolbox/`
 

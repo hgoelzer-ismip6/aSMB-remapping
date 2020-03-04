@@ -45,7 +45,7 @@ ncks -C -O -x -v MAPPING aSMB_MARv3.9-yearly-${amodscen}_ltm2091-2100.nc aSMB_MA
 
 # regrid
 # Path to GDFs
-gdfs=/Volumes/ISMIP6/Grids/GrIS/GDFs
+gdfs=../../Data/Grid
 ingdf=grid_ISMIP6_GrIS_01000m.nc
 outgdf=grid_ISMIP6_GrIS_05000m.nc
 cdo remapycon,${gdfs}/${outgdf} -setgrid,${gdfs}/${ingdf} aSMB_MARv3.9-yearly-${amodscen}_ltm2091-2100.nc aSMB_MARv3.9-yearly-${amodscen}_ltm2091-2100_e05000m.nc

@@ -13,8 +13,8 @@ gcm = 'MIROC5';
 scen = 'rcp85';
 
 % Model
-amod = 'OBS';
-%amod = 'VUBGISM';
+%amod = 'OBS';
+amod = 'VUBGISM';
 
 %%%%%%%
 
@@ -22,7 +22,7 @@ amod = 'OBS';
 flg_weigh = 1;
 
 % flag for plotting 
-flg_plot = 1;
+flg_plot = 0;
 load cmap_dsmb
 %cmap = colormap(jet);
 

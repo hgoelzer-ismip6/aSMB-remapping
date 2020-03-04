@@ -31,8 +31,8 @@ dx=5000;dy=5000;
 inpath = ['../Data/dSMB/' gcm '-' scen ];
 
 % MAR surface 
-d0 = ncload(['../Data/RCM/MARv3.9_topg_05000m.nc']);
-sur = d0.topg(:,:);
+d0 = ncload(['../Data/RCM/orog_MARv3.9_05000m.nc']);
+sur = d0.orog(:,:);
 
 % scenario specific 
 lookup_file = ['trans_lookup_b25_MARv3.9-' gcm '-' scen ];

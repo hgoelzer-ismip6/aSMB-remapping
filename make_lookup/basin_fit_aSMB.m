@@ -27,7 +27,7 @@ nb = length(bas.ids);
 % ISMIP6 forcing
 dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
 lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85';
-dg = ncload(['../Data/RCM/grid_MAR3.9_05000m.nc']);
+dg = ncload(['../Data/RCM/grid_MARv3.9_05000m.nc']);
 sur=dg.SRF;
 d0.DSMB = dm.aSMB * secpyear / 1000;
 
@@ -41,7 +41,8 @@ if (flg_plot)
     f = figure;
     set(f, 'DefaultLineLineWidth', 0.5)
     set(f, 'DefaultLineMarkerSize', 4)
-    set(0, 'DefaultAxesFontSize', 8)
+    set(f, 'DefaultAxesFontSize', 16)
+    set(gca, 'FontSize', 16)
     colors = distinguishable_colors(36);
 end
 
@@ -103,8 +104,7 @@ end
         %    set(gca,'XTick',[])
         %    axis([0 3300 -2 1])
         %    title(['B' num2str(bas.ids(i)) ' ID' num2str(i) ])
-        set(gca,'FontSize',20)
-        text(2700,-5,['b', num2str(bas.ids(i)) ''],'FontSize',20,'Interpreter','Tex')    
+        text(2700,-5,['b', num2str(bas.ids(i)) ''],'FontSize',16,'Interpreter','Tex')    
     end
 
 end
