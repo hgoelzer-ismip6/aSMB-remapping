@@ -13,15 +13,20 @@ Matlab/Shell workflow for remapping Greenland SMB anomalies
 `cp <ExtArchive>/grid_ISMIP6_GrIS_05000m.nc ../Data/Grid/`
 `cp <ExtArchive>/zmask_05000m.nc ../Data/Grid/`
 
-`cp <ExtArchive>/ ../Data/RCM/`
+`cp <ExtArchive>/grid_MARv3.9_05000m.nc ../Data/RCM/`
+`cp <ExtArchive>/orog_MARv3.9_05000m.nc ../Data/RCM/`
 
 `cp <ExtArchive>/OBS/orog_05000m.nc ../Models/OBS/`
 `cp <ExtArchive>/OBS/sftgif_05000m.nc ../Models/OBS/`
 `cp <ExtArchive>/OBS/lithk_05000m.nc ../Models/OBS/`
 `cp <ExtArchive>/OBS/topg_05000m.nc ../Models/OBS/`
 
-`cp <ExtArchive>/VUBGISM/orog_05000m.nc ../Models/VUBGISM/`
-`cp <ExtArchive>/VUBGISM/sftgif_05000m.nc ../Models/VUBGISM/`
+`cp <ExtArchive>/initMIP/VUBGISM/orog_05000m.nc ../Models/VUBGISM/`
+`cp <ExtArchive>/initMIP/VUBGISM/sftgif_05000m.nc ../Models/VUBGISM/`
+
+`cp <ExtArchive>/initMIP/fi_A5.mat ../Data/initMIP`
+`cp <ExtArchive>/initMIP/ch_A5.mat ../Data/initMIP`
+
 
 ### Prepare Basins (done only once)
 

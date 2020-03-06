@@ -16,8 +16,7 @@ flg_match = 0;
 flg_plot = 1;
 
 % 0=obs; 1=VUB; 2=MPI; 3=JPL; 4=BGC;
-iism = 0;
-%iism = 1;
+iism = 4;
 
 colors=get(0,'DefaultAxesColorOrder');
 
@@ -383,3 +382,10 @@ export_fig(['../Plotting/Plots/dsur_div' modscen '_re'], '-png', '-r300', '-nocr
 end
 
 end % plt_flg
+
+% error estimates
+abserr = abs(((bint_re-bint)./bint)*100);
+sort(abserr)
+abserr([5 8 9])
+mean(abserr)
+

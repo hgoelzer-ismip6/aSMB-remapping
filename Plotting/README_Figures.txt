@@ -30,25 +30,31 @@ save_extbasins
 plot_wbas_div_bw
 
 Figure 05
-dsmb_5km_basin_reconstruct
-iscen = 6;                                                                            
+reconstruct_aSMB
 iism = 0;
-ddsmb_div_M39_MIROC5_rcp85_map-ext_obs_wgt1.pngdsmb_div_M39_MIROC5_rcp85_mapmod_obs_wgt1.pngdsmb_div_M39_MIROC5_rcp85_orgobs.png
+-->
+ddsmb_div_M39_MIROC5_rcp85_map-ext_obs_wgt1.png
+dsmb_div_M39_MIROC5_rcp85_mapmod_obs_wgt1.png
+dsmb_div_M39_MIROC5_rcp85_orgobs.png
 Then Figure5_Set.pptx
 save as png
 --> Figure5_Set.png
 
 Figure 06
-dsmb_5km_basin_reconstruct
-iscen = 6;                                                                            
+reconstruct_aSMB
+
 iism = 0;
 --> dsmb_basinint_M39_MIROC5_rcp85_re.png
 
 Figure 07
-dsmb_5km_basin_reconstruct
-iscen = 6;                                                                            
+reconstruct_aSMB
 iism = 1; VUB
---> ddsmb_div_M39_MIROC5_rcp85_ext-org_vubgism_wgt1.pngddsmb_div_M39_MIROC5_rcp85_map-ext_vubgism_wgt1.pngdsmb_div_M39_MIROC5_rcp85_mapmod_vubgism_wgt1.pngdsmb_div_M39_MIROC5_rcp85_orgmod_vubgism.pngdsmb_div_M39_MIROC5_rcp85_orgobs.png
+-->
+ddsmb_div_M39_MIROC5_rcp85_ext-org_vubgism_wgt1.png
+ddsmb_div_M39_MIROC5_rcp85_map-ext_vubgism_wgt1.png
+dsmb_div_M39_MIROC5_rcp85_mapmod_vubgism_wgt1.png
+dsmb_div_M39_MIROC5_rcp85_orgmod_vubgism.png
+dsmb_div_M39_MIROC5_rcp85_orgobs.png
 dsur_divM39_MIROC5_rcp85_re.png
 Then Figure07_Set.pptx
 save as png
@@ -56,9 +62,9 @@ save as png
 
 
 Figure 08
-dsmb_5km_basin_reconstruct
-iscen = 6;                                                                            
+reconstruct_aSMB
 iism = 1; VUB
+-->
 dsmb_basinint_M39_MIROC5_rcp85mod_map_vubgism_wgt1.png
 ddsmb_basinint_M39_MIROC5_rcp85mod_map_vubgism_wgt1.png
 
@@ -74,7 +80,8 @@ Figure 10
 meta_trans_dsmb
 calls trans_dsmb_5km_basin_reconstruct_dsdz
 plot_trans_results_dsdz
---> Dh_c_2100_MAR39_obs.png
+-->
+Dh_c_2100_MAR39_obs.png
 Dh_0_2100_MAR39_obs.png
 Dh_param_MAR39_obs.png
 Then Figure10_Set.pptx
@@ -83,11 +90,13 @@ save as png
 --> Figure10_Set.png
 
 
+
 Figure 11
 meta_trans_dsmb
 calls trans_dsmb_5km_basin_reconstruct_dsdz
 plot_trans_results_dsdz
---> Dh_2_2100_MAR39_obs.png
+-->
+Dh_2_2100_MAR39_obs.png
 Dh_lapse_2100_MAR39_obs.png
 Dh_lapseD_2100_MAR39_obs.png
 Then Figure11_Sets.pptx
@@ -100,19 +109,25 @@ Figure 12
 trans_dsmb_5km_basin_reconstruct_all
 get_sl_model_all
 bar_sl_model_all
---> A5_bar_trans_M39_MIROC5_rcp85.pngA5_bar_trans_remap_M39_MIROC5_rcp85.png
+-->
+A5_bar_trans_M39_MIROC5_rcp85.png
+A5_bar_trans_remap_M39_MIROC5_rcp85.png
 
 
 =========== Supplement ===============
 
-Figure S1
-dsmb_5km_basin_reconstruct
-iscen = 6;                                                                            
+Figure S3
+reconstruct_aSMB
 iism = 2; iism = 3; iism = 4;
---> dsmb_div_M39_MIROC5_rcp85_mapmod_bgcbi_wgt1.pngdsmb_div_M39_MIROC5_rcp85_mapmod_jplissm_wgt1.pngdsmb_div_M39_MIROC5_rcp85_mapmod_mpimpism_wgt1.png
+-->
+dsmb_div_M39_MIROC5-rcp85_mapmod_bgcbi_wgt1.png
+dsmb_div_M39_MIROC5-rcp85_mapmod_jplissm_wgt1.png
+dsmb_div_M39_MIROC5-rcp85_mapmod_mpimpism_wgt1.png
 
-# Figure S2
-dsmb_5km_basin_reconstruct
-iscen = 6;                                                                            
+# Figure S4
+reconstruct_aSMB
 iism = 2; iism = 3; iism = 4;
---> dsmb_basinint_M39_MIROC5_rcp85mod_map_bgcbi_wgt1.pngdsmb_basinint_M39_MIROC5_rcp85mod_map_jplissm_wgt1.pngdsmb_basinint_M39_MIROC5_rcp85mod_map_mpimpism_wgt1.pngdsmb_basinint_M39_MIROC5_rcp85mod_map_vubgism_wgt1.png
+-->
+dsmb_basinint_M39_MIROC5-rcp85mod_map_bgcbi_wgt1.png
+dsmb_basinint_M39_MIROC5-rcp85mod_map_jplissm_wgt1.png
+dsmb_basinint_M39_MIROC5-rcp85mod_map_mpimpism_wgt1.png
