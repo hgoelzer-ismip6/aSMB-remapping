@@ -43,3 +43,8 @@ order=[3,1,4,6,2,5];
 axis([10 110 0.05 0.13])
 legend(h(order),mscen_M39([order]),'Interpreter','None','FontSize',10,'Location','sw')
 print('-dpng','-r300','../Plotting/Plots/metaxN_noleg_M39')
+
+% Numbers
+(rmss_M39(:,5)-rmss_M39(:,1))./(rmss_M39(:,1))*100
+mean((rmss_M39(:,5)-rmss_M39(:,1))./(rmss_M39(:,1))*100)
+
