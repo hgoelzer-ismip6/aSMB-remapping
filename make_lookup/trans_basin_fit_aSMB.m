@@ -18,33 +18,34 @@ flg_nanfill = 1;
 colors=get(0,'DefaultAxesColorOrder');
 
 % basin definition
-load ../Data/Basins/ExtBasinMasks25_05000m.mat
+load ../Data/Basins/ExtBasinMasks25_04000m.mat
 nb=length(bas.ids);
 
 % area factors
-da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
-af = double(da.af2(:,:));
+da = ncload('../Data/Grid/af2_CISM_GrIS_04000m.nc');
+af2 = da.af2(:,:);
 
 % res
-dx=5000;dy=5000;
+dx=4000;dy=4000;
 
 inpath = ['../Data/dSMB/' gcm '-' scen ];
 
 % MAR surface 
-d0 = ncload(['../Data/RCM/orog_MARv3.9_05000m.nc']);
-sur = d0.orog(:,:);
+dg = ncload(['../Data/RCM/smb_reference_usrf.nc']);
+sur=dg.smb_reference_usrf;
 
 % scenario specific 
-lookup_file = ['trans_lookup_b25_MARv3.9-' gcm '-' scen ];
+lookup_file = ['b25_MARv3.9-' gcm '-' scen ];
 
-d1 = ncload(['../Data/RCM/aSMB_MARv3.9-yearly-' gcm '-' scen '-2015-2100_05000m.nc']);
+%d1 = ncload(['../Data/RCM/aSMB_MARv3.9-yearly-' gcm '-' scen '-2015-2100_04000m.nc']);
+d1=ncload('../Data/RCM/smb_anomaly_MIROC5-rcp85_04000m.nc');
 
 % timer
-time = 2015:2100;
+time = 2015:2101;
 nt = length(time);
 
-ds = ncload('../Models/OBS/sftgif_05000m.nc');
-mask = double(ds.sftgif);
+ds = ncload(['../Data/RCM/grounded_mask_04000m.nc']);
+mask= double(ds.grounded_mask == 1);
 
 %% fit a lookup table to the data
 %% centers at sstep intervals with ds range
@@ -68,7 +69,7 @@ for t = 1:nt % year loop
 %    t
     fprintf(['\b\b\b\b\b']);
     fprintf([sprintf('%02d',t), ',00']);
-    aSMB = d1.aSMB(:,:,t);
+    aSMB = d1.smb_anomaly(:,:,t)/917.; % mm/yr to m/yr i.e. 
 
     
 %    figure
@@ -84,7 +85,7 @@ for t = 1:nt % year loop
 %        plot(sur_b(:),aSMB_b(:),'.');
 
         %% integral dsmb for this basin
-        bint(b,t)=nansum(nansum(aSMB_b.*af.*mask))*dx*dy;
+        bint(b,t)=nansum(nansum(aSMB_b.*af2.*mask))*dx*dy;
         
         %% fit a lookup table to the data
         %% centers at sstep intervals with ds range
@@ -148,7 +149,7 @@ nt = length(td);
 table_out = permute(table,[2,1,3]);
 
 % Write netcdf
-ancfile = ['../Data/lookup/TaSMB_' lookup_file '.nc'];
-ncwrite_TDSMBTable(ancfile,ss,td,table_out,'aSMB_ltbl',{'z','b','time'});
-nccreate(ancfile,'bint','Dimensions',{'b',nb,'time',nt}, 'Datatype','single', 'Format','classic');
+ancfile = ['../Data/lookup/aSMB_ltbl_' lookup_file '.nc'];
+ncwrite_TDSMBTable(ancfile,ss,td,table_out,'aSMB_ltbl',{'zn','bn','time'});
+nccreate(ancfile,'bint','Dimensions',{'bn',nb,'time',nt}, 'Datatype','single', 'Format','classic');
 ncwrite(ancfile,'bint',bint);

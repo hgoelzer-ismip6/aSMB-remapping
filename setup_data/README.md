@@ -73,3 +73,4 @@ convenience. In that case the scripts below are not needed.
 `./process_MAR.sh`
 
 --> Results in ../Data/RCM
+

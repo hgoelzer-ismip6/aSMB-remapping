@@ -11,7 +11,7 @@ foff = 50;
 res = 5;
 
 % load basin division
-load(['../Data/Basins/ExtBasinNeighbours25_nn7_05000m'], 'bas');
+load(['../Data/Basins/ExtBasinNeighbours25_nn7_04000m'], 'bas');
 [y,x]= meshgrid(1:size(bas.basin1,2),1:size(bas.basin1,1));
 
 %% default weights: full weight on own basin
@@ -112,7 +112,7 @@ bas.wbasWGTs(:,:,7) = bas.wgc6;
 
 % Write out 
 wbas = bas;
-save(['../Data/Basins/ExtBasinScale25_nn7_' num2str(foff) '_05000m'], 'wbas');
+save(['../Data/Basins/ExtBasinScale25_nn7_' num2str(foff) '_04000m'], 'wbas');
 
 %%% Write in netcdf
 % BasinIDs
@@ -127,8 +127,8 @@ for i=1:size(wbas.basinIDs,1)
         end
     end
 end
-ncwrite_GrIS('../Data/Basins/BasinIDs_nb25_nn7_05000m.nc',wbas.wbasIDs,'BasinIDs',{'x','y','n'},5);
-ncwrite_GrIS('../Data/Basins/BasinWGTs_nb25_nn7_05000m.nc',wbas.wbasWGTs,'BasinWGTs',{'x','y','n'},5);
+ncwrite_GrIS('../Data/Basins/BasinIDs_nb25_nn7_04000m.nc',wbas.wbasIDs,'BasinIDs',{'x1','y1','nn'},4);
+ncwrite_GrIS('../Data/Basins/BasinWGTs_nb25_nn7_04000m.nc',wbas.wbasWGTs,'BasinWGTs',{'x1','y1','nn'},4);
 
 
 % Plotting

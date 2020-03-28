@@ -1,11 +1,11 @@
 % save basin info
 clear
 
-bas=ncload('../Data/Basins/ISMIP6Masks25_05000m.nc');
+bas=ncload('../Data/Basins/ISMIP6Masks25_04000m.nc');
 
 % masks
-obs=ncload('../Data/Grid/zmask_05000m.nc');
-mask = obs.zmask;
+obs=ncload('../Data/Grid/grounded_mask_04000m.nc');
+mask = obs.grounded_mask;
 mask(isnan(mask)) = 0.;
 omask = 1-mask;
 
@@ -56,7 +56,7 @@ caxis([1,25])
 text(bc(1,:),bc(2,:),num2str([1:25]'),'Color',[1,1,1],'Fontsize',12)
 %print -dpng -r300 extbasins
 
-save ../Data/Basins/ExtBasinMasks25_05000m bas
+save ../Data/Basins/ExtBasinMasks25_04000m bas
 
-save ../Data/Basins/bc_05000m bc
+save ../Data/Basins/bc_04000m bc
 

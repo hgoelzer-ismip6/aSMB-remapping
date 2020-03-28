@@ -10,8 +10,8 @@ if exist(ancfile, 'file') ~= 0;
 end
 
 % Overwrite coordinate dim names assuming standard ordering (x, y, ...)
-dimnames{1}='x';
-dimnames{2}='y';
+dimnames{1}='x1';
+dimnames{2}='y1';
 
 % Open netCDF file.
 ncid = netcdf.create(ancfile,'CLOBBER');
@@ -33,12 +33,12 @@ netcdf.putVar(ncid,my_varID,avar);
 netcdf.close(ncid);
 
 % Standard ISMIP6 coordinates
-dx = -720000;
-dy = -3450000;
-nx1=1681;
-ny1=2881;
-nx=(nx1-1)/res+1;
-ny=(ny1-1)/res+1;
+dx = -713000;
+dy = -3396000;
+nx1=1664;
+ny1=2816;
+nx=(nx1)/res;
+ny=(ny1)/res;
 xd=single(zeros(nx,1));
 yd=single(zeros(ny,1));
 for ip=1:nx
@@ -49,20 +49,20 @@ for jp=1:ny
 end
 
 %% Coordinates
-nccreate(ancfile,'x','Dimensions',{'x',nx}, 'Datatype','single', 'Format','classic');
-nccreate(ancfile,'y','Dimensions',{'y',ny}, 'Datatype','single', 'Format','classic');
-ncwrite(ancfile,'x',xd);
-ncwrite(ancfile,'y',yd);
-ncwriteatt(ancfile,'x', 'units', 'm') ;
-ncwriteatt(ancfile,'y', 'units', 'm') ;
-ncwriteatt(ancfile,'x', 'standard_name', 'projection_x_coordinate') ;
-ncwriteatt(ancfile,'y', 'standard_name', 'projection_y_coordinate') ;
-ncwriteatt(ancfile,'x', 'axis', 'x') ;
-ncwriteatt(ancfile,'y', 'axis', 'y') ;
+nccreate(ancfile,'x1','Dimensions',{'x1',nx}, 'Datatype','single', 'Format','classic');
+nccreate(ancfile,'y1','Dimensions',{'y1',ny}, 'Datatype','single', 'Format','classic');
+ncwrite(ancfile,'x1',xd);
+ncwrite(ancfile,'y1',yd);
+ncwriteatt(ancfile,'x1', 'units', 'm') ;
+ncwriteatt(ancfile,'y1', 'units', 'm') ;
+ncwriteatt(ancfile,'x1', 'standard_name', 'projection_x_coordinate') ;
+ncwriteatt(ancfile,'y1', 'standard_name', 'projection_y_coordinate') ;
+ncwriteatt(ancfile,'x1', 'axis', 'x') ;
+ncwriteatt(ancfile,'y1', 'axis', 'y') ;
 
 %% Attributes
 ncwriteatt(ancfile,'/','proj4','+init=epsg:3413')
-ncwriteatt(ancfile,'/','Description',['Created for ISMIP6 by Heiko Goelzer (h.goelzer@uu.nl), IMAU, ', date ])
+ncwriteatt(ancfile,'/','Description',['Created by Heiko Goelzer (h.goelzer@uu.nl), IMAU, ', date ])
 
 % Mapping
 ncwrite_mapping_GrIS(ancfile);

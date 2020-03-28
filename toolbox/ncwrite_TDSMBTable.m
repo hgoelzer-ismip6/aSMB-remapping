@@ -35,14 +35,14 @@ netcdf.putVar(ncid,my_varID,avar);
 netcdf.close(ncid);
 
 %% Attributes
-ncwriteatt(ancfile,'/','Description',['Created for ISMIP6 by Heiko Goelzer (h.goelzer@uu.nl), IMAU, ', date ])
+ncwriteatt(ancfile,'/','Description',['Created by Heiko Goelzer (h.goelzer@uu.nl), IMAU, ', date ])
 
 %% Coordinates
-nccreate(ancfile,'z','Dimensions',{'z',nz}, 'Datatype','single', 'Format','classic');
-ncwrite(ancfile,'z',zd);
-ncwriteatt(ancfile,'z', 'units', 'm') ;
-ncwriteatt(ancfile,'z', 'axis', 'z') ;
-ncwriteatt(ancfile,'z', 'positive', 'up') ;
+nccreate(ancfile,'zn','Dimensions',{'zn',nz}, 'Datatype','single', 'Format','classic');
+ncwrite(ancfile,'zn',zd);
+ncwriteatt(ancfile,'zn', 'units', 'm') ;
+ncwriteatt(ancfile,'zn', 'axis', 'z') ;
+ncwriteatt(ancfile,'zn', 'positive', 'up') ;
 
 nccreate(ancfile,'time','Dimensions',{'time',nt}, 'Datatype','single', 'Format','classic');
 ncwrite(ancfile,'time',td);

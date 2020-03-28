@@ -8,7 +8,7 @@ addpath('../toolbox')
 res = 5;
 
 % load basin division
-load(['../Data/Basins/ExtBasinMasks25_05000m.mat']); 
+load(['../Data/Basins/ExtBasinMasks25_04000m.mat']); 
 [y,x]= meshgrid(1:size(bas.basin1,2),1:size(bas.basin1,1));
 
 nx = size(y,1);
@@ -51,5 +51,5 @@ bas.basn = [bas.n0; bas.n1; bas.n2; bas.n3; bas.n4; bas.n5; bas.n6];
 % number of neighbors including basin itself
 bas.nn = 7;
 
-save(['../Data/Basins/ExtBasinNeighbours25_nn7_05000m'], 'bas');
+save(['../Data/Basins/ExtBasinNeighbours25_nn7_04000m'], 'bas');
 

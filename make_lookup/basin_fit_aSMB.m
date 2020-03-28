@@ -9,14 +9,14 @@ flg_nanfill = 1;
 flg_plot = 1;
 
 % basin definition
-load ../Data/Basins/ExtBasinMasks25_05000m.mat
+load ../Data/Basins/ExtBasinMasks25_04000m.mat
 
 % area factors
-da = ncload('../Data/Grid/af2_ISMIP6_GrIS_05000m.nc');
+da = ncload('../Data/Grid/af2_CISM_GrIS_04000m.nc');
 af2 = da.af2(:,:);
 
 % dim
-dx=5000;dy=5000;
+dx=4000;dy=4000;
 
 % param
 secpyear = 31556926;
@@ -25,14 +25,15 @@ secpyear = 31556926;
 nb = length(bas.ids);
 
 % ISMIP6 forcing
-dm=ncload('../Data/RCM/aSMB_MARv3.9-yearly-MIROC5-rcp85_ltm2091-2100_e05000m.nc');
+dm=ncload('../Data/RCM/smb_anomaly_MIROC5-rcp85_04000m.nc');
 lookup_file='../Data/lookup/aSMB_lookup_b25_MARv3.9-MIROC5-rcp85';
-dg = ncload(['../Data/RCM/grid_MARv3.9_05000m.nc']);
-sur=dg.SRF;
-d0.DSMB = dm.aSMB * secpyear / 1000;
+dg = ncload(['../Data/RCM/smb_reference_usrf.nc']);
+dk = ncload(['../Data/RCM/grounded_mask_04000m.nc']);
+sur=dg.smb_reference_usrf;
+d0.DSMB = dm.smb_anomaly(:,:,end) /917.; % mm/yr to m/yr i.e. 
 
 % masking to ice covered area
-mask= double(dg.MSK == 5);
+mask= double(dk.grounded_mask == 1);
 
 dsd=d0.DSMB.*(mask./mask);
 bint=zeros(1,25);
