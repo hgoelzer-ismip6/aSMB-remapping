@@ -1,6 +1,8 @@
 # aSMB-remapping
 Matlab/Shell workflow for remapping Greenland SMB anomalies
 
+The input dataset needed to reproduce the results (<ExtArchive>) can be found on Zenodo: doi:10.5281/zenodo.3760526
+
 # Prepare input data 
 
 ### Copy input files from external Data archive 
