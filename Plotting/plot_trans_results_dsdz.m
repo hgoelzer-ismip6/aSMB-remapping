@@ -5,6 +5,9 @@ clear
 % Settings
 modscen='M39_MIROC5-rcp85';
 amod = 'OBS';
+% Parameters
+%pfrm = '-pdf';
+pfrm = '-png';
 
 % models
 t0=load(['../Data/output/transient0_' modscen '_' amod '.mat']);
@@ -49,7 +52,8 @@ caxis([-150 12.5])
 %caxis([-150 12.5]*2.5)
 colormap(cmap_dsmb)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_c_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_c_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_c_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 
 shade_nt(dh_0) 
 hold on
@@ -59,7 +63,8 @@ caxis([-150 12.5])
 %caxis([-150 12.5]*2.5)
 colormap(cmap_dsmb)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_0_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_0_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_0_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 %shade_nt(dh_1) 
 %caxis([-150 12.5])
 shade_nt(dh_2) 
@@ -70,7 +75,8 @@ caxis([-150 12.5])
 %caxis([-150 12.5]*2.5)
 colormap(cmap_dsmb)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_2_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_2_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_2_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 
 % error in parameterisation
 shade_nt(dh_par)
@@ -79,7 +85,8 @@ caxis([-50 50])
 %caxis([-50 50]*2)
 colormap(cmap_polar)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_parerr_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_parerr_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_parerr_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 
 shade_nt(dh_2-dh_0) 
 %hold on
@@ -91,7 +98,8 @@ shade_nt(dh_2-dh_0)
 colormap(cmap_dsmb)
 caxis([-150 12.5]*0.1)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_lapseD_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_lapseD_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_lapseD_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 
 shade_nt(dh_3-dh_0) 
 %hold on
@@ -100,7 +108,8 @@ shade_nt(dh_3-dh_0)
 caxis([-150 12.5]*0.1)
 colormap(cmap_dsmb)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_lapse_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_lapse_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_lapse_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 
 shade_nt(dh_5-dh_0) 
 %hold on
@@ -109,7 +118,8 @@ shade_nt(dh_5-dh_0)
 caxis([-150 12.5]*0.1)
 colormap(cmap_dsmb)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_lapseplusD-2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_lapseplusD-2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_lapseplusD-2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 
 shade_nt(dh_3+dh_2-2*dh_0) 
 %hold on
@@ -118,5 +128,6 @@ shade_nt(dh_3+dh_2-2*dh_0)
 caxis([-150 12.5]*0.1)
 colormap(cmap_dsmb)
 text(350,-18,'[m]','FontSize',14,'Interpreter','tex');
-print('-r300', '-dpng', ['Plots/Dh_lapseplusD_constructed_2100_' modscen '_' amod]);
+%print('-r300', '-dpng', ['Plots/Dh_lapseplusD_constructed_2100_' modscen '_' amod]);
+export_fig(['Plots/Dh_lapseplusD_constructed_2100_' modscen '_' amod], pfrm, '-r300', '-nocrop', '-transparent');
 

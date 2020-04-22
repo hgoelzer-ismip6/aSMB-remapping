@@ -14,9 +14,11 @@ set(groot,'DefaultLineLineWidth', 4)
 flg_weigh = 1;
 flg_match = 0;
 flg_plot = 1;
+pfrm = '-pdf';
+
 
 % 0=obs; 1=VUB; 2=MPI; 3=JPL; 4=BGC;
-iism = 4;
+iism = 1;
 
 colors=get(0,'DefaultAxesColorOrder');
 
@@ -226,7 +228,7 @@ end
 set(gca,'color',[0.9 0.9 0.9])
 axis equal
 %print('-dpng', '-r300', ['Plots/dsmb_div_' modscen '_orgobs']) 
-export_fig(['../Plotting/Plots/dsmb_div_' modscen '_orgobs'], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/dsmb_div_' modscen '_orgobs'], pfrm, '-r300', '-nocrop', '-transparent');
 
 if(iism ~= 0)
 % Extended DSMB on modelled mask
@@ -243,7 +245,7 @@ if(iism ~= 0)
 end
 set(gca,'color',[0.9 0.9 0.9])
 
-export_fig(['../Plotting/Plots/dsmb_div_' modscen '_orgmod_' amod], '-png', '-r300', '-nocrop', '-transparent') 
+export_fig(['../Plotting/Plots/dsmb_div_' modscen '_orgmod_' amod], pfrm, '-r300', '-nocrop', '-transparent') 
 end
 
 % Remapped DSMB on modelled mask
@@ -262,7 +264,7 @@ set(gca,'color',[0.9 0.9 0.9])
 axis equal
 
 %print('-dpng', '-r300', ['Plots/dsmb_div_' modscen '_mapmod_' amod '_wgt' num2str(flg_weigh)]) 
-export_fig(['../Plotting/Plots/dsmb_div_' modscen '_mapmod_' amod '_wgt' num2str(flg_weigh)], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/dsmb_div_' modscen '_mapmod_' amod '_wgt' num2str(flg_weigh)], pfrm, '-r300', '-nocrop', '-transparent');
 
 if(iism ~= 0)
 %% Per basin integrals in comparison
@@ -275,7 +277,7 @@ legend({'original','extended','remapped'},'Location','southeast')
 ylabel('Integrated aSMB [km^3 yr^{-1}]','Interpreter','Tex')
 xlabel('Basin Id')
 %print('-dpng', '-r300', ['Plots/dsmb_basinint_' modscen 'mod_map_' amod '_wgt' num2str(flg_weigh)]) 
-export_fig(['../Plotting/Plots/dsmb_basinint_' modscen 'mod_map_' amod '_wgt' num2str(flg_weigh)], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/dsmb_basinint_' modscen 'mod_map_' amod '_wgt' num2str(flg_weigh)], pfrm, '-r300', '-nocrop', '-transparent');
 end
 
 if(iism ~= 0)
@@ -297,7 +299,7 @@ text(bc(1,:),bc(2,:),num2str([1:25]'),'Color',[0,0,0],'Fontsize',12,'FontWeight'
 set(gca,'color',[0.9 0.9 0.9])
 axis equal
 %print('-dpng', '-r300', ['Plots/ddsmb_div_' modscen '_ext-org_' amod '_wgt' num2str(flg_weigh)]) 
-export_fig(['../Plotting/Plots/ddsmb_div_' modscen '_ext-org_' amod '_wgt' num2str(flg_weigh)], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/ddsmb_div_' modscen '_ext-org_' amod '_wgt' num2str(flg_weigh)], pfrm, '-r300', '-nocrop', '-transparent');
 end
 
 % Differences of mapped to the extended DSMB
@@ -322,7 +324,7 @@ end
 set(gca,'color',[0.9 0.9 0.9])
 axis equal
 %print('-dpng', '-r300', ['Plots/ddsmb_div_' modscen '_map-ext_' amod '_wgt' num2str(flg_weigh)]) 
-export_fig(['../Plotting/Plots/ddsmb_div_' modscen '_map-ext_' amod '_wgt' num2str(flg_weigh)], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/ddsmb_div_' modscen '_map-ext_' amod '_wgt' num2str(flg_weigh)], pfrm, '-r300', '-nocrop', '-transparent');
 
 if(iism ~= 0)
 %% Per basin differences
@@ -337,7 +339,7 @@ legend({'extended-original','extended-remapped'},'Location','southeast')
 ylabel('Integrated aSMB difference [km^3 yr^{-1}]','Interpreter','Tex')
 xlabel('Basin Id')
 %print('-dpng', '-r300', ['Plots/ddsmb_basinint_' modscen 'mod_map_' amod '_wgt' num2str(flg_weigh)]) 
-export_fig(['../Plotting/Plots/ddsmb_basinint_' modscen 'mod_map_' amod '_wgt' num2str(flg_weigh)], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/ddsmb_basinint_' modscen 'mod_map_' amod '_wgt' num2str(flg_weigh)], pfrm, '-r300', '-nocrop', '-transparent');
 end
 
 if(iism == 0)
@@ -354,7 +356,7 @@ ylabel('Integrated aSMB [km^3 yr^{-1}]','Interpreter','Tex')
 legend({['original (tot=', num2str(round(tot1)), ')'],['reconstructed (tot=', num2str(round(tot2)) ,')']},'Location','southwest')
 xlabel('Basin Id')
 %print('-dpng', '-r300', ['Plots/dsmb_basinint_' modscen '_re']) 
-export_fig(['../Plotting/Plots/dsmb_basinint_' modscen '_re'], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/dsmb_basinint_' modscen '_re'], pfrm, '-r300', '-nocrop', '-transparent');
 end
 
 if(iism ~= 0)
@@ -378,7 +380,7 @@ if(iism ~= 0)
     contour(mask0',[0.5,0.5],'Color',[0.5,0.5,0.5],'LineWidth',1.5)
 end
 %print('-dpng', '-r300', ['Plots/dsur_div' modscen '_re']) 
-export_fig(['../Plotting/Plots/dsur_div' modscen '_re'], '-png', '-r300', '-nocrop', '-transparent');
+export_fig(['../Plotting/Plots/dsur_div' modscen '_re'], pfrm, '-r300', '-nocrop', '-transparent');
 end
 
 end % plt_flg
